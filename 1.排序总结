@@ -1,1 +1,121 @@
+1.冒泡排序
+每一趟两两交换，会把最大的换到最后，然后再第二趟，此时最后一个就不用参与了
+void bubblesort(vector<int>& nums)
+{
+    for(int i=0;i<nums.size();++i)
+    {
+        for(int j=1;j<nums.size()-i;++j)
+        {
+            if(nums[j-1]>nums[j])
+                swap(nums[j-1],nums[j]);
+        }
+    }
+    return;
+}
 
+2.选择排序
+选后面序列最小的放到前面
+void selectsort(vector<int>&nums)
+{
+    for(int i=0;i<nums.size();++i)
+    {
+        int minIndex = i;
+        for(int j=i;j<nums.size();++j)
+        {
+            if(nums[minIndex]>nums[j])
+            {
+                minIndex = j;
+            }
+        }
+        swap(nums[minIndex],nums[i]);
+    }
+    return;
+}
+3.插入排序
+void insertsort(vector<int>&nums)
+{
+    for(int i=1;i<nums.size();++i)
+    {
+        int temp = nums[i];
+        int j;
+        for(j=i-1;j>=0&&temp<nums[j];j--)
+        {
+            nums[j+1] = nums[j];
+        }
+        nums[j+1] = temp;
+
+    }
+    return;
+}
+
+4.归并排序
+void merge(vector<int>&nums, int start, int end, int mid)
+{
+    vector<int> temp;
+    int i=start,j=mid+1;
+    while(i<=mid&&j<=end)
+    {
+        if(nums[i]<nums[j]) {
+            temp.push_back(nums[i]);
+            i++;
+        }
+        else
+        {
+            temp.push_back(nums[j]);
+            j++;
+        }
+    }
+    while(i<=mid)
+    {
+        temp.push_back(nums[i]);
+        i++;
+    }
+    while(j<=end)
+    {
+        temp.push_back(nums[j]);
+        j++;
+    }
+    for(i=0;i<temp.size();++i)
+        nums[start+i] = temp[i];
+    return;
+}
+void mergesort(vector<int>&nums, int l, int r)
+{
+    if(l<r)
+    {
+        mergesort(nums,l, l+(r-l)/2);
+        mergesort(nums,l+(r-l)/2+1,r);
+        merge(nums,l,r,l+(r-l)/2);
+    }
+    return;
+}
+5.快速排序
+void quicksort(vector<int>&nums,int start, int end)
+{
+
+    if(start<end)
+    {
+        int l=start, r=end, x = nums[start];
+        while(l<r) {
+            while (l < r && nums[r] >= x) {
+                r--;
+            }
+            if (l < r) {
+                nums[l] = nums[r];
+                l++;
+            }
+            while (l < r && nums[l] < x) {
+                l++;
+            }
+            if (l < r) {
+                nums[r] = nums[l];
+                r--;
+            }
+        }
+        nums[l] = x;
+        quicksort(nums,start, l-1);
+        quicksort(nums,l+1,end);
+    }
+    return;
+
+}
